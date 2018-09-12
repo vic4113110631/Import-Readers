@@ -16,6 +16,7 @@ public class IndexServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
 
+
         RequestDispatcher view = request.getRequestDispatcher("index.jsp");
         view.forward(request,response);
     }

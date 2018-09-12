@@ -16,7 +16,38 @@
         <url-pattern>/Index.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>InsertFile</servlet-name>
+        <servlet-class>tw.ntu.lib.InsertFileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>InsertFile</servlet-name>
+        <url-pattern>/Insert.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Index</servlet-name>
+        <jsp-file>/index.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern>/Index</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
+        <welcome-file>Index</welcome-file>
         <welcome-file>Index.do</welcome-file>
     </welcome-file-list>
+
+    <context-param>
+        <param-name>LogoURL</param-name>
+        <param-value>http://www.lib.ntu.edu.tw/sites/default/files/NTUlibrary-01_0_0.png</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>Menu</param-name>
+        <param-value>Import file, History</param-value>
+    </context-param>
 </web-app>
