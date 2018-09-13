@@ -8,7 +8,7 @@
 
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
-        <servlet-class>tw.ntu.lib.IndexServlet</servlet-class>
+        <servlet-class>tw.ntu.lib.web.IndexServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -18,7 +18,7 @@
 
     <servlet>
         <servlet-name>InsertFile</servlet-name>
-        <servlet-class>tw.ntu.lib.InsertFileServlet</servlet-class>
+        <servlet-class>tw.ntu.lib.web.InsertFileServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -46,8 +46,7 @@
         <param-value>http://www.lib.ntu.edu.tw/sites/default/files/NTUlibrary-01_0_0.png</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>Menu</param-name>
-        <param-value>Import file, History</param-value>
-    </context-param>
+    <listener>
+        <listener-class>tw.ntu.lib.web.ContextListener</listener-class>
+    </listener>
 </web-app>
