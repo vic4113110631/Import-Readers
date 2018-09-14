@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="tw.ntu.lib.Model.Reader" table="patron_test" schema="alma">
+        <id name = "seq" column = "seq"/>
+        <property name = "cname" column = "cname"/>
+        <property name = "college" column = "college"/>
+        <property name = "deptcode" column = "deptcode"/>
+        <property name = "deptname" column = "deptname"/>
+        <property name = "title" column = "title"/>
+        <property name = "grade" column = "grade"/>
+        <property name = "gender" column = "gender"/>
+        <property name = "birthday" column = "birthday"/>
+        <property name = "idno" column = "idno"/>
+        <property name = "barcode" column = "barcode"/>
+        <property name = "inStatus" column = "in_status"/>
+        <property name = "expire" column = "expire"/>
+        <property name = "ntuemail" column = "ntuemail"/>
+        <property name = "contemail" column = "contemail"/>
+        <property name="ntuacct" column = "ntuacct"/>
+        <property name = "phonehome" column = "phonehome"/>
+        <property name = "mobile" column = "mobile"/>
+        <property name = "phone3" column = "phone3"/>
+        <property name = "nation" column = "nation"/>
+        <property name = "permPostco" column = "perm_postco"/>
+        <property name = "permadd" column = "permadd"/>
+        <property name = "contPostco" column = "cont_postco"/>
+        <property name = "contadd" column = "contadd"/>
+        <property name = "begindate" column = "begindate"/>
+        <property name = "enddate" column = "enddate"/>
+        <property name = "extend" column = "extend"/>
+        <property name = "src" column = "src"/>
+        <property name = "usrNote" column = "usr_note"/>
+        <property name = "createdate" column = "createdate"/>
+        <property name = "updatetime" column = "updatetime"/>
+    </class>
+</hibernate-mapping>

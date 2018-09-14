@@ -1,6 +1,6 @@
 package tw.ntu.lib.web;
 
-import tw.ntu.lib.model.DataBase;
+import tw.ntu.lib.Model.DataBase;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

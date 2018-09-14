@@ -6,7 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
-import tw.ntu.lib.model.DataBase;
+import tw.ntu.lib.Model.DataBase;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
