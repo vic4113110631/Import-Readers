@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="tw.ntu.lib.Model.Reader" table="patron_test" schema="alma">
+    <class name="tw.ntu.lib.model.Reader" table="patron_test" schema="alma">
         <id name = "seq" column = "seq"/>
         <property name = "cname" column = "cname"/>
         <property name = "college" column = "college"/>

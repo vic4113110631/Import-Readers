@@ -1,4 +1,4 @@
-package tw.ntu.lib.Model;
+package tw.ntu.lib.model;
 
 import tw.ntu.lib.web.ContextListener;
 

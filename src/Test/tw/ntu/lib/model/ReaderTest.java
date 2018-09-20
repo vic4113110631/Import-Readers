@@ -1,10 +1,11 @@
-package tw.ntu.lib.Model;
+package tw.ntu.lib.model;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import org.junit.After;
 import org.junit.Before;
@@ -37,7 +38,6 @@ public class ReaderTest {
 
     @Test
     public void testSaveReader() {
-        Reader reader = new Reader("231231", "william", "A123456789", "123456@gmail.com");
-        session.save(reader);
+
     }
 }

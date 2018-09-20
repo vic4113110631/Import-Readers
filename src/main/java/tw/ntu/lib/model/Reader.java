@@ -1,4 +1,4 @@
-package tw.ntu.lib.Model;
+package tw.ntu.lib.model;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -436,4 +436,5 @@ public class Reader {
         result = 31 * result + (updatetime != null ? updatetime.hashCode() : 0);
         return result;
     }
+
 }

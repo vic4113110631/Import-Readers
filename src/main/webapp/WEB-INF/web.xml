@@ -6,6 +6,7 @@
          version="3.0">
     <display-name>Tomcat Sample Application</display-name>
 
+    <!-- Index Serlvet -->
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>tw.ntu.lib.web.IndexServlet</servlet-class>
@@ -16,6 +17,7 @@
         <url-pattern>/Index.do</url-pattern>
     </servlet-mapping>
 
+    <!-- Insert File-->
     <servlet>
         <servlet-name>InsertFile</servlet-name>
         <servlet-class>tw.ntu.lib.web.InsertFileServlet</servlet-class>
@@ -24,6 +26,17 @@
     <servlet-mapping>
         <servlet-name>InsertFile</servlet-name>
         <url-pattern>/Insert.do</url-pattern>
+    </servlet-mapping>
+
+    <!-- Show history -->
+    <servlet>
+        <servlet-name>History</servlet-name>
+        <jsp-file>/history.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>History</servlet-name>
+        <url-pattern>/History.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
