@@ -4,7 +4,7 @@
     <form autocomplete = "on" method = "post" action = "Insert.do" enctype = "multipart/form-data" id = "form">
         <div style="width:100%;">
             <p>1.有效期限</p>
-            <input name = "date" type = "date" required>
+            <input name = "date" type = "date" id = "expire" required>
         </div>
         <div style="width:100%;">
             <p>2.資料來源</p>
@@ -21,5 +21,12 @@
         <p>
             <input type = "submit" value = "submit" id = "submit"/>
         </p>
+        <div class = "progress" style="display: none">
+            <div class = "progress-bar progress-bar-danger progress-bar-striped active"></div>
+        </div>
+
+        <div id = "status">
+            <p></p>
+        </div>
     </form>
 </div>

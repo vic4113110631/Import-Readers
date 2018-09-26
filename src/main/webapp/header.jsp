@@ -1,7 +1,8 @@
+<%@ page contentType = "text/html; charset=utf-8" pageEncoding = "utf-8" %>
 
 <!-- Navigation -->
 <nav class="navbar navbar-fixed-top">
-    <div class = "header-top"></div>
+    <!-- <div class = "header-top"></div> -->
     <div class="container">
         <div class="navbar-header">
             <a href = "http://www.lib.ntu.edu.tw/" >
@@ -14,7 +15,8 @@
             <li><a href="History.do" class="">History</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class=""><a href="#">Login</a></li>
+            <li><a style="color: #69B0AC">使用者: ${sessionScope.userName}</a></li>
+            <li><a href="Logout.do">Logout</a></li>
         </ul>
     </div>
 </nav>

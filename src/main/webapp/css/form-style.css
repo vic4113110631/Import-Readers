@@ -10,10 +10,10 @@ form {
     background: whitesmoke;
     border-radius: 5px;
     position: relative;
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: 'Microsoft JhengHei', sans-serif;
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 1000px) {
     form {
         width: 100%;
     }
@@ -72,4 +72,34 @@ form > p:last-of-type > input {
     padding: 10px 50px;
     background: silver;
     border-radius: 28px;
+}
+
+.progress{
+    height: 25px;
+    background: #fff;
+    border-top: 5px solid #1c2647;
+    border-bottom: 5px solid #1c2647;
+    border-radius: 0;
+    overflow: visible;
+    position: relative;
+}
+.progress:before,
+.progress:after{
+    content: "";
+    width: 5px;
+    background: #1c2647;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    bottom: 0;
+}
+.progress:after{
+    left: auto;
+    right: -5px;
+}
+.progress .progress-bar{
+    border: none;
+    box-shadow: none;
+    -webkit-animation: 2s linear 0s normal none infinite running progress-bar-stripes,animate-positive 1s;
+    animation: 2s linear 0s normal none infinite running progress-bar-stripes,animate-positive 1s;
 }

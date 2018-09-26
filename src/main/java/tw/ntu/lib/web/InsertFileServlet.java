@@ -1,5 +1,7 @@
 package tw.ntu.lib.web;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -10,11 +12,12 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.joda.time.DateTime;
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import tw.ntu.lib.model.DataBase;
 import tw.ntu.lib.model.HibernateUtil;
+import tw.ntu.lib.model.History;
 import tw.ntu.lib.model.Reader;
 
 import javax.servlet.annotation.WebServlet;
@@ -25,13 +28,9 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Boolean.FALSE;
 
@@ -41,6 +40,7 @@ public class InsertFileServlet extends HttpServlet {
     private static final String UPLOAD_DIRECTORY = "upload";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
         response.setContentType("application/json;charset=UTF-8");
         try {
             // Open a connection
@@ -60,18 +60,20 @@ public class InsertFileServlet extends HttpServlet {
             Boolean status = FALSE;
             String source = "";
             String expire = "";
+            String fileName = "";
             try {
                 List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 for(FileItem item: items){
                     if(item.isFormField()){
                         // Process normal fields here.
                         String fieldName = item.getFieldName();
+                        String value  = item.getString("utf-8");
                         switch (fieldName){
                             case "date":
-                                expire = item.getString();
+                                expire = value;
                                 break;
                             case "source":
-                                source = item.getString();
+                                source = value;
                                 break;
                         }
                     }else {
@@ -89,13 +91,14 @@ public class InsertFileServlet extends HttpServlet {
 
                         if(workbook != null) {
                             FileOutputStream out = new FileOutputStream(uploadPath + File.separator + item.getName());
+                            fileName = item.getName();
                             workbook.write(out);
                             status = processExcel(workbook, expire, source);
                         }
 
                     }
                 }
-
+                writeHistory(fileName, status);
                 JsonObject status_json = new JsonObject();
                 status_json.addProperty("status", status);
                 response.getWriter().write(status_json.toString());
@@ -106,6 +109,36 @@ public class InsertFileServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void writeHistory(String fileName, Boolean status) {
+        String historyPath = getServletContext().getRealPath("/WEB-INF/classes/history.json");
+        History history = new History();
+
+        history.setFileName(fileName);
+        if(status) {
+            history.setStatus("success");
+        }else {
+           history.setStatus("fail");
+        }
+        // Get time
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String time = format.format(date);
+        history.setTime(time);
+
+        // Write to file
+        try (Writer writer = new FileWriter(historyPath)) {
+
+            List<History> historyList = (List<History>) getServletContext().getAttribute("history");
+            historyList.add(history);
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(historyList, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static final DateTimeFormatter dateFormater = new DateTimeFormatterBuilder()
@@ -120,7 +153,7 @@ public class InsertFileServlet extends HttpServlet {
         Sheet sheet = workbook.getSheetAt(0); // Default to fisrt sheet
 
         List<Reader> readerList = new ArrayList<>();
-        Boolean status = true;
+        boolean status = true;
         for(int i = 1; i <= sheet.getLastRowNum(); i++){ // Pass first row
             Row row = sheet.getRow(i);
             if(row == null){
@@ -212,12 +245,23 @@ public class InsertFileServlet extends HttpServlet {
             java.sql.Date now = new java.sql.Date(date.getTime());
 
             for (Reader item : readerList) {
+
                 item.setBegindate(now);
                 item.setEnddate(new java.sql.Date(expire_date.getTime()));
                 item.setSrc(source);
-                session.save(item);
+
+                try {
+                    session.save(item);
+                }catch (ConstraintViolationException e){
+                    System.out.println(item.getCname()+ "is duplicate");
+                }
             }
-            transaction.commit();
+            try {
+                transaction.commit();
+            }catch (Exception e){
+                status = false;
+                e.printStackTrace();
+            }
         }
         return status;
     } // end method

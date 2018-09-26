@@ -9,6 +9,7 @@
     -->
     <title>Import Readers</title>
     <meta http-equiv = "Content-Type" content = "text/html" charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel = "stylesheet" type = "text/css" href = "css/bootstrap.min.css">
     <link rel = stylesheet type = "text/css" href = "css/header-style.css">
     <link rel = stylesheet type = "text/css" href = "css/form-style.css">
@@ -29,8 +30,8 @@
 
             // Retrieve to select option
             var schools = [
-                {val : "NTUST", text: "國立臺灣科技大學"},
-                {val : "NTNU", text: "國立臺灣師範大學"},
+                {val : "國立臺灣科技大學", text: "國立臺灣科技大學"},
+                {val : "國立臺灣師範大學", text: "國立臺灣師範大學"},
                 {val : "other", text: "其他"}
             ];
             $(document).on("click","#back",function() {
@@ -47,7 +48,7 @@
                 $(this).parent().remove();
             });
 
-            $("#form").submit(function(event) {
+            $(document).on("click", "#submit", function(event) {
                 // Stop form from submitting normally
                 event.preventDefault();
 
@@ -56,7 +57,7 @@
 
                 // disabled the submit button
                 $("#submit").prop("disabled", true);
-                $(".progress").show('slow');
+                $(".progress").fadeIn();
                 $.ajax({
                     type: "POST",
                     enctype: 'multipart/form-data',
@@ -67,10 +68,15 @@
                     cache: false,
                     timeout: 600000,
                     success: function (data) {
-
+                        if(data.status){
+                            $("#status").children('p').first().text("success");
+                        }else{
+                            $("#status").children('p').first().text("fail");
+                        }
                         console.log("SUCCESS : ", data);
-                        $("#submit").prop("disabled", false);
 
+                        $("#submit").prop("disabled", false);
+                        $(".progress").delay(800).fadeOut();
                     },
                     error: function (e) {
                         // $("#result").text(e.responseText);
@@ -82,6 +88,7 @@
                         if(e.lengthComputable) {
                             var progress = e.loaded / e.total * 100;
                             $(".progress-bar").width(progress + "%");
+                            $(".progress-bar").css({'background':"#6699A1"});
                             var content = e.srcElement.responseText;
                         }
                         else {
@@ -90,6 +97,8 @@
                     }
                 }); // end ajax post
             }); // end form method
+
+
         });
 
         <!-- dynamic bootstrap 3 navbar fixed top overlapping content -->
@@ -104,15 +113,20 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class = "container-fluid">
         <jsp:include page = "header.jsp"/>
     </div>
 
-    <div class="container-fluid">
-        <div class="container">
+    <div class = "container-fluid">
+        <div class = "container">
             <jsp:include page = "form.jsp"/>
         </div>  <!-- container -->
     </div>
 
+    <div class = "container-fluid">
+        <div class = "container">
+
+        </div>  <!-- container -->
+    </div>
 </body>
 </html>

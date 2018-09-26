@@ -1,3 +1,9 @@
 [
-
+  {
+    "fileName": "test.xls",
+    "time": "2018/09/20/ 14:22",
+    "status": "fail",
+    "note": [ "test note1",
+              "test note2"]
+  }
 ]
