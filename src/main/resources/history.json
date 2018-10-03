@@ -1,9 +1,17 @@
 [
   {
     "fileName": "test.xls",
-    "time": "2018/09/20/ 14:22",
+    "time": "2018-09-20 14:22",
     "status": "fail",
-    "note": [ "test note1",
-              "test note2"]
+    "editor": "NTU.LIB",
+    "note": [ "Row 15:Email格式錯誤",
+              "Row 15:XXXXXXXXXXXX"]
+  },
+  {
+    "fileName": "test2.xls",
+    "time": "2018-09-20 14:22",
+    "status": "success",
+    "editor": "user",
+    "note": [ "成功匯入2550筆資料"]
   }
 ]

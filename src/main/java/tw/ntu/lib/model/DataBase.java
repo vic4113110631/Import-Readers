@@ -25,7 +25,6 @@ public class DataBase {
             String USER = property.getProperty("user");
             String PASS = property.getProperty("password");
 
-
             // Register JDBC driver
             Class.forName(JDBC_DRIVER);
             this.conn = DriverManager.getConnection(URL, USER, PASS);

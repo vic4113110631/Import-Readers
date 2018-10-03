@@ -1,26 +1,27 @@
-.header-top{
-    background-color: #69B0AC;
-    height: 25px;
-    width: 100%;
-}
-.navbar-header {
-    float: none;
-}
 .logo {
-    height: 90px;
+    max-height: 90px;
+    width: auto;
     float: left;
 }
+.navbar {
+    box-shadow: none !important;
 
-.navbar-fixed-top{
-    border-bottom: #69B0AC 4px solid;
 }
-.nav>li>a{
-    font-weight: 600;
-    color: #999;
+header{
+    border-bottom: #00bcd4 4px solid;
+}
+.nav-top{
+    background-color: #69B0AC;
+    height: 20px;
+    width: 100%;
+}
+nav li a{
+    font-weight: 500;
+    color: #999 !important;
 }
 
-.nav>li>a:hover, .nav>li>a:focus{
+nav li a:hover, nav li a:focus{
     background-color: inherit;
-    color: #69B0AC;
+    color: #00bcd4 !important;
     transition: color 700ms linear;
 }

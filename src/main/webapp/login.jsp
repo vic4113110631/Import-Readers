@@ -9,58 +9,60 @@
 
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Import Readers - login</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Bootstrap core CSS -->
-  <link href="css/login/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="css/login/mdb.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="http://www.lib.ntu.edu.tw/sites/all/themes/libweb/favicon.ico" type="image/vnd.microsoft.icon" />
 
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    $(function() {
-      $('#loginForm').modal('show');
+    <title>Import Readers - login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-      $(document).on("submit", "#loginForm", function(event) {
-        // Stop form from submitting normally
-        event.preventDefault();
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
 
-        var userName = $("#name").val();
-            password = $("#password").val();
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#loginForm').modal('show');
 
+            $(document).on("submit", "#loginForm", function(event) {
+                // Stop form from submitting normally
+                event.preventDefault();
 
-        $.ajax({
-            type : "POST",
-            url : "/Login.do",
-            data : {
-                userName : userName,
-                password : password
-            },
-            success: function (result) {
-                if(result.status){
-                    $("#status").text(result.info);
-                    $("#login").prop("disabled", true);
-                    window.setTimeout(function(){
-                        window.location.href = "/Index.do";
-                    }, 2000);
-                }else{
-                    $("#status").text(result.info);
-                }
-            },
-            error: function (e) {
-              // $("#result").text(e.responseText);
-              console.log("ERROR : ", e);
-              $("#submit").prop("disabled", false);
-            }
+                var userName = $("#name").val();
+                password = $("#password").val();
+
+                $.ajax({
+                    type : "POST",
+                    url : "Login.do",
+                    data : {
+                        userName : userName,
+                        password : password
+                    },
+                    success: function (result) {
+                        if(result.status){
+                            $("#status").text(result.info);
+                            $("#login").prop("disabled", true);
+
+                            window.setTimeout(function(){
+                                window.location.href = "Index.do";
+                            }, 2000);
+                        }else{
+                            $("#status").text(result.info);
+                        }
+                    },
+                    error: function (e) {
+                        // $("#result").text(e.responseText);
+                        console.log("ERROR : ", e);
+                        $("#submit").prop("disabled", false);
+                    }
+                });
+            }); // end form method
         });
-      }); // end form method
-
-    });
-  </script>
+    </script>
 </head>
 
 <body>
@@ -96,10 +98,10 @@
 </body>
 
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="js/login/popper.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="js/login/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="js/login/mdb.min.js"></script>
+  <script type="text/javascript" src="js/mdb.min.js"></script>
 
 </html>

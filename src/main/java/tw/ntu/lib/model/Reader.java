@@ -1,6 +1,10 @@
 package tw.ntu.lib.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -42,14 +46,9 @@ public class Reader {
     public Reader() {
     }
 
-    public Reader(String seq, String cname, String idno, String ntuemail) {
-        this.seq = seq;
-        this.cname = cname;
-        this.idno = idno;
-        this.ntuemail = ntuemail;
-    }
 
     @Id
+    @NotNull(message = "學號 不可以為空")
     @Column(name = "seq")
     public String getSeq() {
         return seq;
@@ -60,6 +59,7 @@ public class Reader {
     }
 
     @Basic
+    @NotNull(message = "姓名 不可以為空")
     @Column(name = "cname")
     public String getCname() {
         return cname;
@@ -330,6 +330,7 @@ public class Reader {
     }
 
     @Basic
+    @Length(max = 255, message = "備註長度過長")
     @Column(name = "usr_note")
     public String getUsrNote() {
         return usrNote;

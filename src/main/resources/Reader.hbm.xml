@@ -20,7 +20,7 @@
         <property name = "expire" column = "expire"/>
         <property name = "ntuemail" column = "ntuemail"/>
         <property name = "contemail" column = "contemail"/>
-        <property name="ntuacct" column = "ntuacct"/>
+        <property name = "ntuacct" column = "ntuacct"/>
         <property name = "phonehome" column = "phonehome"/>
         <property name = "mobile" column = "mobile"/>
         <property name = "phone3" column = "phone3"/>

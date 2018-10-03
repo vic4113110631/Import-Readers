@@ -1,0 +1,41 @@
+.attention{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+@media screen and (max-width: 1000px) {
+    .attention {
+        width: 100%;
+    }
+}
+
+.container ol {
+    margin-bottom: 0;
+    counter-reset: myCounter;
+}
+
+.container ol li {
+    margin-bottom: 1rem;
+    list-style: none;
+    padding-left: .5rem;
+}
+
+.container ol li:before {
+    position: absolute;
+    left: 0px;
+    counter-increment: myCounter;
+    content: counter(myCounter);
+    display: inline-block;
+    text-align: center;
+    margin: auto;
+    line-height: 30px;
+    transition: all .2s;
+    color: #ffffff;
+    background: #51A8DD;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}

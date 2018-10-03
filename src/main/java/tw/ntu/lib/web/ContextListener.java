@@ -23,7 +23,7 @@ public class ContextListener implements ServletContextListener {
         servletContext = event.getServletContext();
 
         // Saving DB connection
-        DataBase db = new DataBase();
+         DataBase db = new DataBase();
         getServletContext().setAttribute("database", db);
 
         // Read histroy file

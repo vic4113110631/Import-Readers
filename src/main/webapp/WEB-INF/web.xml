@@ -28,6 +28,28 @@
         <url-pattern>/Insert.do</url-pattern>
     </servlet-mapping>
 
+    <!-- Insert File-->
+    <servlet>
+        <servlet-name>AcctMGMT</servlet-name>
+        <servlet-class>tw.ntu.lib.web.AccountServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AcctMGMT</servlet-name>
+        <url-pattern>/MGMT.do</url-pattern>
+    </servlet-mapping>
+
+    <!-- Register user -->
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>tw.ntu.lib.web.RegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register.do</url-pattern>
+    </servlet-mapping>
+
     <!-- Login validate -->
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -96,14 +118,14 @@
     <listener>
         <listener-class>tw.ntu.lib.web.ContextListener</listener-class>
     </listener>
-    
+
     <filter>
-        <filter-name>Login</filter-name>
+        <filter-name>LoginFilter</filter-name>
         <filter-class>tw.ntu.lib.web.LoginFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>Login</filter-name>
+        <filter-name>LoginFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
