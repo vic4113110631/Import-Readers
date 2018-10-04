@@ -4,19 +4,23 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.poi.ss.usermodel.*;
 import org.hibernate.*;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Excel {
     private List<String> info;
     private HashSet<String> seqList;
     private String source;
+    private String type;
+    private String typeCode;
     private static int COLLEGE = 5;
-    EmailValidator eamilValidator = EmailValidator.getInstance();
+    private EmailValidator eamilValidator = EmailValidator.getInstance();
 
     public List<String> getInfo() {
         return info;
@@ -34,10 +38,12 @@ public class Excel {
         this.source = source;
     }
 
-    public Excel(String source) {
+    public Excel(String source, String type, String typeCode) {
         this.info = new ArrayList<>();
         this.seqList = new HashSet<>();
         this.source = source;
+        this.type = type;
+        this.typeCode = typeCode;
     }
 
     public Boolean process(Workbook workbook) {
@@ -96,11 +102,13 @@ public class Excel {
                 Reader item = readerList.get(i);
                 temp = item;
 
-                // 設定起始日、資料建立日/更新日、來源
+                // 設定起始日、資料建立日/更新日、來源、讀者代碼、OutputType
                 item.setBegindate(now);
                 item.setCreatedate(new Timestamp(date.getTime()));
                 item.setUpdatetime(new Timestamp(date.getTime()));
                 item.setSrc(source);
+                item.setDeptcode(typeCode);
+                item.setOutputType("Internal");
 
                 session.save(item);
                 if (i %100 == 0) {
@@ -130,6 +138,14 @@ public class Excel {
         return true;
     } // end method
 
+    public boolean checkFields(Workbook workbook) {
+        List<String> fields = Arrays.asList("條碼", "姓名", "身分證號", "手機", "電話",
+                "學院", "系所", "職稱", "Email", "性別", "狀態", "到期日", "備註");
+        Row row = workbook.getSheetAt(0).getRow(0);
+        // TODO Check
+        return true;
+    }
+
     public boolean checkSource(Workbook workbook) {
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(1);
@@ -145,7 +161,7 @@ public class Excel {
                 if(college.equals("")) {
                     info.add("Row 1: 學院資料為空");
                 }else{
-                    info.add("資料來源為:" + source + "，檔案中學院為:" + college);
+                    info.add("資料來源不一致");
                 }
                 return false;
             }
@@ -196,7 +212,7 @@ public class Excel {
                 // Check email format
                 for(String email : emails) {
                     if (!eamilValidator.isValid(email)) {
-                        info.add("條碼:" + reader.getSeq() + " - email欄位不合法!");
+                        info.add("條碼:" + reader.getSeq() + " - email欄位不合法");
                         return false;
                     }
                 }
@@ -226,7 +242,7 @@ public class Excel {
                 try {
                     parsed = format.parse(value);
                 } catch (ParseException e) {
-                    info.add("條碼:" + reader.getSeq() + " - 不可以解析'到期日'");
+                    info.add("條碼:" + reader.getSeq() + " - 不可以解析到期日");
                     return false;
                 }
                 reader.setEnddate(new java.sql.Date(parsed.getTime()));

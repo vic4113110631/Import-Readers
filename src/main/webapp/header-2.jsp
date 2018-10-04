@@ -17,7 +17,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="Index.do">Import</a></li>
                     <li class="nav-item"><a class="nav-link" href="History.do">History</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Datatable</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#">Datatable</a></li> -->
                     <c:if test="${sessionScope.permission == 'admin'}">
                         <li class="nav-item"><a href="MGMT.do" class="nav-link">Account</a></li>
                     </c:if>

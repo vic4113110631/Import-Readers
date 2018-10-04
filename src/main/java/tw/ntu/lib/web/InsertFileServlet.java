@@ -52,6 +52,8 @@ public class InsertFileServlet extends HttpServlet {
         try {
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             String source = "";
+            String type = "";
+            String typeCode = "";
             for(FileItem item: items){
                 if(item.isFormField()){
                     // Process normal fields here.
@@ -60,6 +62,12 @@ public class InsertFileServlet extends HttpServlet {
                     switch (fieldName){
                         case "source":
                             source = value;
+                            break;
+                        case "type":
+                            type = value;
+                            break;
+                        case "typeCode":
+                            typeCode = value;
                             break;
                         default:
                             System.out.printf("%s:%s - ", fieldName, value);
@@ -84,14 +92,14 @@ public class InsertFileServlet extends HttpServlet {
                         String fileName = item.getName();
                         workbook.write(out);
 
-                        Excel excel = new Excel(source);
+                        Excel excel = new Excel(source, type, typeCode);
                         if(excel.checkSource(workbook)) {
                             status = excel.process(workbook);
-                            info.addAll(excel.getInfo());
 
                             String editor = (String) request.getSession().getAttribute("userName");
                             History.writeHistory(fileName, status, info, editor);
                         }
+                        info.addAll(excel.getInfo()); // Add all process information
                     }
 
                 } // end process excel file
@@ -108,6 +116,7 @@ public class InsertFileServlet extends HttpServlet {
             JsonObject result = new JsonObject();
             result.addProperty("status", status);
             result.addProperty("info", gson.toJson(info));
+            System.out.println(info);
             response.getWriter().write(result.toString());
         }
     }

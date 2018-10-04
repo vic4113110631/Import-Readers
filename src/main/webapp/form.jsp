@@ -40,8 +40,8 @@
         </div>
 
         <div class="row" style="display: none;">
-            類型:<input name = 'otherType' type = 'text' id = 'type_other' class="col" value="otherType">
-            代碼:<input name = 'otherTypeCode' type = 'text' id = 'typeCode_other' class="col" value="otherCode">
+            類型:<input name = 'type' type = 'text' id = 'type_other' class="col" value="otherType" required>
+            代碼:<input name = 'typeCode' type = 'text' id = 'typeCode_other' class="col" value="otherCode" required>
         </div>
 
         <div style="width:100%;">
@@ -52,7 +52,7 @@
             <input type = "submit" value = "submit" id = "submit"/>
         </p>
         <div class = "progress" style="display: none">
-            <div class = "progress-bar progress-bar-striped progress-bar-animated active"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
         </div>
 
         <div id = "status" class="text-center">

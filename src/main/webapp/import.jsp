@@ -83,17 +83,26 @@
                 $("#typeCode_list").show('linear');
             });
 
-            $(document).on("click", "#submit", function(event) {
+            $(document).on("submit", "#form", function(event) {
                 // Stop form from submitting normally
                 event.preventDefault();
 
+                // Generate post data
                 var checkbox = $("input[type='checkbox']");
-                checkbox.prop("disabled", false);
+                var otherType = $("#type_other");
+                var otherTypeCode = $("#typeCode_other");
 
+                if($("#source").prop("tagName").toLowerCase() !== 'input') {
+                    checkbox.prop("disabled", false);   // disabled 不能傳資料，暫時先取消
+                    otherType.prop("disabled", true);
+                    otherTypeCode.prop("disabled", true);
+                }
                 var form = $("#form")[0];
                 var data = new FormData(form);
 
                 checkbox.prop( "disabled", true);
+                otherType.prop( "disabled", false);
+                otherTypeCode.prop( "disabled", false);
 
                 $("#info").empty(); // Clear process information
 
@@ -202,6 +211,7 @@
                 <blockquote class="blockquote bq-primary">
                     <p class="bq-title">下載範例檔案</p>
                     <p>匯入檔案前請先過目"rule.xlsx"該檔案，依照第一列的欄位對應資料才可正確匯入資料</p>
+                    <p>匯入檔案需MS Excel 97-2003以上，若版本過舊請另存新檔再上傳</p>
                 </blockquote>
 
                 <p class="font-weight-bold">欄目格式</p>

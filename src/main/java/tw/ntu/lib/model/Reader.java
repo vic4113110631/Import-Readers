@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -42,10 +41,11 @@ public class Reader {
     private String usrNote;
     private Timestamp createdate;
     private Timestamp updatetime;
+    private String outputType;
+
 
     public Reader() {
     }
-
 
     @Id
     @NotNull(message = "學號 不可以為空")
@@ -358,6 +358,16 @@ public class Reader {
 
     public void setUpdatetime(Timestamp updatetime) {
         this.updatetime = updatetime;
+    }
+
+    @Basic
+    @Column(name = "output_type")
+    public String getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(String outputType) {
+        this.outputType = outputType;
     }
 
     @Override
