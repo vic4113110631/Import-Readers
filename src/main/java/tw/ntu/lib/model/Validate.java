@@ -21,7 +21,7 @@ public class Validate {
 
             for (ConstraintViolation<Reader> cv : cvs) {
 
-                String err = "Row:" + i + "--" + String.valueOf(cv.getPropertyPath()) + ":" + cv.getMessage();
+                String err = "Row:" + i + " -- " + String.valueOf(cv.getPropertyPath()) + ":" + cv.getMessage();
                 errors.add(err);
             }
         }

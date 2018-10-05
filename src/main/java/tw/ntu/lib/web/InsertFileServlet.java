@@ -8,12 +8,10 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.OldExcelFormatException;
-import org.apache.poi.hssf.record.OldStringRecord;
-import org.apache.poi.hssf.record.RecordInputStream;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import tw.ntu.lib.model.*;
 
 import javax.servlet.annotation.WebServlet;
@@ -77,28 +75,33 @@ public class InsertFileServlet extends HttpServlet {
                     // Process excle file
                     InputStream file = item.getInputStream();
                     Workbook workbook = null;
-
-                    if (item.getName().endsWith(".xlsx")) {
-                        workbook = new XSSFWorkbook(file);
-                    } else if (item.getName().endsWith(".xls")) {
+                    try{
+                        if (item.getName().endsWith(".xlsx") || item.getName().endsWith(".xls")) {
+                            workbook = WorkbookFactory.create(file);
+                        }else {
+                            info.add("File format is wrong!");
+                        }
+                    }catch (EncryptedDocumentException e){
+                        info.add("Excel密碼保護，請移除密碼再上傳");
+                    }catch (OldExcelFormatException e){
                         // TODO　conversion MS EXCEL 5.0/95
-                        workbook = new HSSFWorkbook(file);
-                    } else {
-                        info.add("File format is wrong!");
+                        info.add("Excel版本過於老舊，請另存為更新版本再上傳");
                     }
 
                     if(workbook != null) {
-                        FileOutputStream out = new FileOutputStream(uploadPath + File.separator + item.getName());
-                        String fileName = item.getName();
-                        workbook.write(out);
-
+                        String fileName  = FilenameUtils.getName(item.getName());
                         Excel excel = new Excel(source, type, typeCode);
+
                         if(excel.checkSource(workbook)) {
                             status = excel.process(workbook);
 
                             String editor = (String) request.getSession().getAttribute("userName");
                             History.writeHistory(fileName, status, info, editor);
                         }
+                        // Write file
+                        FileOutputStream out = new FileOutputStream(uploadPath + File.separator + fileName);
+                        workbook.write(out);
+
                         info.addAll(excel.getInfo()); // Add all process information
                     }
 
@@ -108,9 +111,10 @@ public class InsertFileServlet extends HttpServlet {
         }catch (FileUploadException e){
             info.add("Can't upload file!請洽管理員!");
             e.printStackTrace();
-        }catch (OldExcelFormatException e){
-            info.add("Excel版本過於老舊，請另存為更新版本再上傳");
-        }finally {
+        }catch (Exception e){
+            info.add("後臺系統出錯!請洽管理員!");
+            e.printStackTrace();
+        } finally {
             // Return result by Json format
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonObject result = new JsonObject();

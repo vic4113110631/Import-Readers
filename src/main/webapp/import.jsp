@@ -104,14 +104,17 @@
                 otherType.prop( "disabled", false);
                 otherTypeCode.prop( "disabled", false);
 
-                $("#info").empty(); // Clear process information
+                // Clear last time process information
+                $("#status").children('p').first().text("");
+                $("#info").empty();
 
                 // Check file format
-                if(data.get("excel").name == ""){
+                var fileName = $('input[type=file]').val(); // data.get("excel").name - IE 不支援
+                if(fileName === ""){
                     $("#info").append($('<p>').text("Select a file!"));
                     return;
                 }
-                var isCorrectForamt = checkFormat(data.get("excel").name);
+                var isCorrectForamt = checkFormat(fileName);
                 if(!isCorrectForamt){
                     $("#info").append($('<p>').text("File format is wrong!"));
                     return;

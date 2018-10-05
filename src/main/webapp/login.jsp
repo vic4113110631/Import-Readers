@@ -6,7 +6,7 @@
     if(loggedIn)
         response.sendRedirect("Index.do");
 %>
-
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="shortcut icon" href="http://www.lib.ntu.edu.tw/sites/all/themes/libweb/favicon.ico" type="image/vnd.microsoft.icon" />
@@ -14,7 +14,6 @@
     <title>Import Readers - login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">

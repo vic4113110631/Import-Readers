@@ -3,6 +3,8 @@ package tw.ntu.lib.model;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -48,7 +50,7 @@ public class Reader {
     }
 
     @Id
-    @NotNull(message = "學號 不可以為空")
+    @NotBlank(message = "「學號」不可以為空")
     @Column(name = "seq")
     public String getSeq() {
         return seq;
@@ -59,7 +61,8 @@ public class Reader {
     }
 
     @Basic
-    @NotNull(message = "姓名 不可以為空")
+    @NotBlank(message = "「姓名」不可以為空")
+    @Length(max = 50, message = "「姓名」欄位過長")
     @Column(name = "cname")
     public String getCname() {
         return cname;
@@ -71,6 +74,8 @@ public class Reader {
 
     @Basic
     @Column(name = "college")
+    @NotBlank(message = "「學院」不可以為空")
+    @Length(max = 30, message = "「學院」長度過長")
     public String getCollege() {
         return college;
     }
@@ -91,6 +96,7 @@ public class Reader {
 
     @Basic
     @Column(name = "deptname")
+    @Length(max = 30, message = "「系所」長度過長")
     public String getDeptname() {
         return deptname;
     }
@@ -101,6 +107,8 @@ public class Reader {
 
     @Basic
     @Column(name = "title")
+    @NotBlank(message = "「職稱」不可以為空")
+    @Length(max = 30, message = "「職稱」長度過長")
     public String getTitle() {
         return title;
     }
@@ -141,6 +149,8 @@ public class Reader {
 
     @Basic
     @Column(name = "idno")
+    @NotBlank(message = "「身分證號」不可為空")
+    @Length(max = 30, message = "「身分證號」不符合")
     public String getIdno() {
         return idno;
     }
@@ -170,6 +180,7 @@ public class Reader {
     }
 
     @Basic
+    @NotNull(message = "請輸入狀態")
     @Column(name = "expire")
     public Byte getExpire() {
         return expire;
@@ -190,6 +201,7 @@ public class Reader {
     }
 
     @Basic
+    @Length(max = 50, message = "Email長度過長")
     @Column(name = "contemail")
     public String getContemail() {
         return contemail;
@@ -210,6 +222,7 @@ public class Reader {
     }
 
     @Basic
+    @Length(max = 20, message = "「電話」長度過長")
     @Column(name = "phonehome")
     public String getPhonehome() {
         return phonehome;
@@ -220,6 +233,7 @@ public class Reader {
     }
 
     @Basic
+    @Length(max = 20, message = "「手機」長度過長")
     @Column(name = "mobile")
     public String getMobile() {
         return mobile;
@@ -320,6 +334,7 @@ public class Reader {
     }
 
     @Basic
+    @Length(max = 8, message = "「來源」名稱長度過長")
     @Column(name = "src")
     public String getSrc() {
         return src;
@@ -330,7 +345,7 @@ public class Reader {
     }
 
     @Basic
-    @Length(max = 255, message = "備註長度過長")
+    @Length(max = 255, message = "「備註」長度過長")
     @Column(name = "usr_note")
     public String getUsrNote() {
         return usrNote;

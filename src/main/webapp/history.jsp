@@ -30,9 +30,14 @@
 <body>
     <jsp:include page = "header-2.jsp"/>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:20px;">
         <div class="container table-responsive">
-        <table class = "table">
+            <!-- TODO　data range picker
+            <div class="text-center float-right">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#dateRange">Date range</a>
+            </div>
+            -->
+            <table class = "table">
             <thead>
                 <tr>
                     <th>File Name</th>
@@ -50,7 +55,7 @@
                     <td>${item.editor}</td>
                     <td>
                         <c:forEach items = "${item.note}" var = "info">
-                            ${info}</br>
+                            ${info}<br/>
                         </c:forEach>
                     </td>
                 </tr>

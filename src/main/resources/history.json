@@ -4,14 +4,43 @@
     "time": "2018-09-20 14:22",
     "status": "fail",
     "editor": "NTU.LIB",
-    "note": [ "Row 15:Email格式錯誤",
-              "Row 15:XXXXXXXXXXXX"]
+    "note": [
+      "Row 15:Email格式錯誤",
+      "Row 15:XXXXXXXXXXXX"
+    ]
   },
   {
     "fileName": "test2.xls",
     "time": "2018-09-20 14:22",
     "status": "success",
     "editor": "user",
-    "note": [ "成功匯入2550筆資料"]
+    "note": [
+      "成功匯入2550筆資料"
+    ]
+  },
+  {
+    "fileName": "20181004_117_8_test.xls",
+    "time": "2018-10-04 20:23",
+    "status": "success",
+    "editor": "user",
+    "note": [
+      "成功匯入13筆資料"
+    ]
+  },
+  {
+    "fileName": "臺科大讀者檔轉檔範例(alma).xlsx",
+    "time": "2018-10-05 10:24",
+    "status": "success",
+    "editor": "user",
+    "note": [
+      "成功匯入0筆資料"
+    ]
+  },
+  {
+    "fileName": "test1005.xlsx",
+    "time": "2018-10-05 14:14",
+    "status": "success",
+    "editor": "user",
+    "note": []
   }
 ]

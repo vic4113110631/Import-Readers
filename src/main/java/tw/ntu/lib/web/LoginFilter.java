@@ -27,7 +27,7 @@ public class LoginFilter implements Filter {
         if(loggedIn || path.equals("/")
                     || path.equals("/Login")
                     || path.equals("/Login.do")
-                    || path.matches(".*(css|jpg|png|gif|js|map|woff|woff2|ttf)")){
+                    || path.matches(".*(css|jpg|png|gif|js|map|woff|woff2|ttf|eot)")){
             chain.doFilter(request, response);
         }else{
             res.sendRedirect(loginURI);

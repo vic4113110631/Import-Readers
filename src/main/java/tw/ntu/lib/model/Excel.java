@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Excel {
     private List<String> info;
@@ -20,7 +21,8 @@ public class Excel {
     private String type;
     private String typeCode;
     private static int COLLEGE = 5;
-    private EmailValidator eamilValidator = EmailValidator.getInstance();
+    private static final Pattern TAIWAN_ID_PATTERN = Pattern.compile("[A-Z][1-2]\\d{8}");
+    private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
 
     public List<String> getInfo() {
         return info;
@@ -50,47 +52,53 @@ public class Excel {
         Sheet sheet = workbook.getSheetAt(0); // Default to fisrt sheet
 
         List<Reader> readerList = new ArrayList<>();
-
-        for(int i = 1; i <= sheet.getLastRowNum(); i++){ // Pass first row
-            Row row = sheet.getRow(i);
-            // Limit.1: Excel has empty rows.
-            if(row == null){
-                info.add("Row " + i + " is empty");
-                return false;
-            }
-
-            // Limit.2: Reader format is not correct.
-            Reader reader = new Reader();
-            for (Cell cell : row) {
-                boolean status = setCell(reader, cell);
-                if(!status)
-                    return false;
-            }
-
-            // Limit.3:Check duplicate instance
-            Session session = HibernateUtil.openSession();
-            Reader temp =  (Reader) session.get(Reader.class, reader.getSeq());
-            if(temp != null){
-                info.add("Row:"+ i + " -- 條碼" + reader.getSeq() + " 已存在資料庫中");
-                return false;
-            }
-
-            // Limit.4:Validate reader data
-            List<String> errors = Validate.validate(reader, i);
-            info.addAll(errors);
-            if (!errors.isEmpty())
-                return false;
-
-            if(!seqList.add(reader.getSeq())) {
-                info.add("檔案中有兩筆資料重複 - 條碼:" + reader.getSeq());
-                return false;
-            }else {
-                    readerList.add(reader);
-            }
-
-        } // end for-loop for rows
-
         Session session = HibernateUtil.openSession();
+        try {
+            for(Row row : sheet){
+                if(row.getRowNum() == 0)// Pass first row
+                    continue;
+
+                // Limit.1: Excel has empty rows.
+                if (row.getCell(0) == null) {
+                    // info.add("Row " + row.getRowNum() + " is empty");
+                    break;
+                }
+
+
+                // Limit.2: Reader format is not correct.
+                Reader reader = new Reader();
+                for (Cell cell : row) {
+                    boolean status = setCell(reader, cell);
+                    if(!status)
+                        return false;
+                }
+
+                // Limit.3:Check duplicate instance
+                Reader temp =  (Reader) session.get(Reader.class, reader.getSeq());
+                if(temp != null){
+                    info.add("Row:"+ row.getRowNum() + " -- 條碼" + reader.getSeq() + " 已存在資料庫中");
+                    return false;
+                }
+
+                // Limit.4:Validate reader data
+                List<String> errors = Validate.validate(reader, row.getRowNum() + 1);
+                info.addAll(errors);
+                if (!errors.isEmpty())
+                    return false;
+
+                if(!seqList.add(reader.getSeq())) {
+                    info.add("檔案中有兩筆資料重複 - 條碼:" + reader.getSeq());
+                    return false;
+                }else {
+                    readerList.add(reader);
+                }
+
+            } // end for-loop for rows
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("有錯誤!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
         Transaction transaction = session.beginTransaction();
 
         java.util.Date date = Calendar.getInstance().getTime();
@@ -131,6 +139,8 @@ public class Excel {
             e.printStackTrace();
             transaction.rollback();
             return false;
+        }catch (Exception e){
+            info.add("條碼:" + temp.getSeq() + "資料錯誤");
         }finally{
             session.close();
         }
@@ -182,6 +192,12 @@ public class Excel {
                 reader.setCname(value);
                 break;
             case 2: // 身分證號
+                if(!value.equals("")){
+                    if(!TAIWAN_ID_PATTERN.matcher(value).matches()){
+                        info.add("條碼:" + reader.getSeq() + " - 「身分證號」不合法");
+                        return false;
+                    }
+                }
                 reader.setIdno(value);
                 break;
             case 3: // 手機
@@ -211,8 +227,8 @@ public class Excel {
                 }
                 // Check email format
                 for(String email : emails) {
-                    if (!eamilValidator.isValid(email)) {
-                        info.add("條碼:" + reader.getSeq() + " - email欄位不合法");
+                    if (!EMAIL_VALIDATOR.isValid(email)) {
+                        info.add("條碼:" + reader.getSeq() + " - 「Email」不合法");
                         return false;
                     }
                 }
@@ -230,6 +246,7 @@ public class Excel {
                 if (value.equals("-")){
                     reader.setExpire((byte) 0);
                 }else{
+                    reader.setInStatus(value);
                     reader.setExpire((byte) 1);
                 }
                 break;
@@ -241,8 +258,12 @@ public class Excel {
                 Date parsed;
                 try {
                     parsed = format.parse(value);
+                    if(!parsed.after(new Date())){
+                        info.add("條碼:" + reader.getSeq() + " - 「到期日」不可以為過去或今天");
+                        return false;
+                    }
                 } catch (ParseException e) {
-                    info.add("條碼:" + reader.getSeq() + " - 不可以解析到期日");
+                    info.add("條碼:" + reader.getSeq() + " - 不可以解析「到期日」");
                     return false;
                 }
                 reader.setEnddate(new java.sql.Date(parsed.getTime()));

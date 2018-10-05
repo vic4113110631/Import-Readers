@@ -12,7 +12,7 @@ class HibernateUtil {
     static {
         try {
             Configuration config = new Configuration().configure();
-            System.out.println("Initial");
+            System.out.println("Initial session factory.");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).configure().build();
             sessionFactory = config.buildSessionFactory(serviceRegistry);
         } catch (Throwable ex) {
