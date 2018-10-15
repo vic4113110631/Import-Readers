@@ -91,7 +91,18 @@
 
     <servlet-mapping>
         <servlet-name>History</servlet-name>
-        <url-pattern>/History.do</url-pattern>
+        <url-pattern>/History</url-pattern>
+    </servlet-mapping>
+
+    <!-- search history by date range picker -->
+    <servlet>
+        <servlet-name>Range</servlet-name>
+        <servlet-class>tw.ntu.lib.web.HistoryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Range</servlet-name>
+        <url-pattern>/Range.do</url-pattern>
     </servlet-mapping>
 
     <!-- Login page -->

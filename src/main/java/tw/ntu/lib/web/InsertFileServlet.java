@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import static java.lang.Boolean.FALSE;
 
@@ -99,7 +100,10 @@ public class InsertFileServlet extends HttpServlet {
                             History.writeHistory(fileName, status, info, editor);
                         }
                         // Write file
-                        FileOutputStream out = new FileOutputStream(uploadPath + File.separator + fileName);
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                        String PREFIX = formatter.format(date);
+                        FileOutputStream out = new FileOutputStream(uploadPath + File.separator + PREFIX + "_" + fileName);
                         workbook.write(out);
 
                         info.addAll(excel.getInfo()); // Add all process information

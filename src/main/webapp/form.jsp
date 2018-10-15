@@ -51,9 +51,6 @@
         <p>
             <input type = "submit" value = "submit" id = "submit"/>
         </p>
-        <div class = "progress" style="display: none">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
-        </div>
 
         <div id = "status" class="text-center text-monospace">
             <p></p>

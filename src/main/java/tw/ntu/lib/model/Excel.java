@@ -4,15 +4,11 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.poi.ss.usermodel.*;
 import org.hibernate.*;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Excel {
     private List<String> info;
@@ -21,7 +17,7 @@ public class Excel {
     private String type;
     private String typeCode;
     private static int COLLEGE = 5;
-    private static final Pattern TAIWAN_ID_PATTERN = Pattern.compile("[A-Z][1-2]\\d{8}");
+    // private static final Pattern TAIWAN_ID_PATTERN = Pattern.compile("[A-Z][1-2]\\d{8}");
     private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
 
     public List<String> getInfo() {
@@ -101,19 +97,20 @@ public class Excel {
 
         Transaction transaction = session.beginTransaction();
 
-        java.util.Date date = Calendar.getInstance().getTime();
+        java.util.Date date = new Date();
         java.sql.Date now = new java.sql.Date(date.getTime());
 
         Reader temp = null;
         try {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             for (int i = 0; i < readerList.size(); i++) {
                 Reader item = readerList.get(i);
                 temp = item;
 
                 // 設定起始日、資料建立日/更新日、來源、讀者代碼、OutputType
                 item.setBegindate(now);
-                item.setCreatedate(new Timestamp(date.getTime()));
-                item.setUpdatetime(new Timestamp(date.getTime()));
+                item.setCreatedate(timestamp);
+                item.setUpdatetime(timestamp);
                 item.setSrc(source);
                 item.setDeptcode(typeCode);
                 item.setOutputType("Internal");
@@ -126,7 +123,7 @@ public class Excel {
                 }
             }
 
-            transaction.commit();
+            // transaction.commit();
             info.add("成功匯入" + readerList.size() + "筆資料");
 
         }catch(NonUniqueObjectException e){
@@ -192,12 +189,6 @@ public class Excel {
                 reader.setCname(value);
                 break;
             case 2: // 身分證號
-                if(!value.equals("")){
-                    if(!TAIWAN_ID_PATTERN.matcher(value).matches()){
-                        info.add("條碼:" + reader.getSeq() + " - 「身分證號」不合法");
-                        return false;
-                    }
-                }
                 reader.setIdno(value);
                 break;
             case 3: // 手機

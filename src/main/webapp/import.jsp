@@ -122,7 +122,7 @@
 
                 // disabled the submit button
                 $("#submit").prop("disabled", true);
-                $(".progress").fadeIn();
+                // $(".progress").fadeIn();
                 $.ajax({
                     type: "POST",
                     enctype: 'multipart/form-data',
@@ -142,37 +142,33 @@
 
                         // Append information about file
                         for (var i = 0; i < info.length; i++){
-                            $message = $("<p>" + info[i] + "</p>");
-                            $("#info").append($message);
+                            var message = $("<p>" + info[i] + "</p>");
+                            $("#info").append(message);
                             if(data.status){
-                                $message.addClass("alert alert-success");
+                                message.addClass("alert alert-success");
                             }else{
-                                $message.addClass("alert alert-danger")
+                                message.addClass("alert alert-danger")
                             }
                         } // end loop
 
+                        // remove the loading indicator and restore submit button
+                        $('#form').preloader('remove');
                         $("#submit").prop("disabled", false);
-                        $(".progress").delay(800).fadeOut();
                     },
                     error: function (e) {
                         // $("#result").text(e.responseText);
                          console.log("ERROR : ", e);
 
+                        // remove the loading indicator and restore submit button
+                        $('#form').preloader('remove');
                         $("#submit").prop("disabled", false);
-                        $(".progress").delay(800).fadeOut();
                     },
                     progress: function(e) {
-                        if(e.lengthComputable) {
-                            var progress = e.loaded / e.total * 100;
-                            $(".progress-bar").width(progress + "%");
-                            $(".progress-bar").css({'background':"#6699A1"});
-                            var content = e.srcElement.responseText;
-                        }
-                        else {
-                            // TODO add message error 'Content Length not reported!';
-                        }
+                        // Loading status
+                        $("#form").preloader();
                     }
                 }); // end ajax post
+
             }); // end form method
 
             function checkFormat(fileName) {
@@ -237,4 +233,9 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="js/mdb.min.js"></script>
+
+    <!-- Preloader plugin -->
+    <link rel="stylesheet" type="text/css" href="preloader/css/preloader.css">
+    <script src="preloader/js/jquery.preloader.min.js"></script>
+
 </html>

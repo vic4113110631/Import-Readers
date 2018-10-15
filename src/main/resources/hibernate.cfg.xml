@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
-        <property name="connection.url">jdbc:mysql://140.112.114.60:3306/alma?useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://140.112.114.60:3306/alma?useSSL=false&amp;serverTimezone=CTT</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">patron_test</property>
         <property name="connection.password">dbTest@4.60</property>
